@@ -1,52 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>AI Art Universe</title>
+    <meta charset="UTF-8">
+    <title>My AI Generator</title>
+    <script src="https://js.puter.com/v2/"></script>
     <style>
-        body {
-            background-color: #0d1117; /* Dark space blue */
-            color: #58a6ff; /* Neon blue text */
-            font-family: 'Segoe UI', sans-serif;
-            text-align: center;
-        }
-        h1 { text-shadow: 0 0 10px #58a6ff; }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 40px;
-        }
-        .gallery img {
-            width: 100%;
-            border-radius: 15px;
-            border: 2px solid #30363d;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .gallery img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px #bc8cff; /* Purple glow on hover */
-            border-color: #bc8cff;
-        }
-        .buy-btn {
-            background: #238636;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 10px;
-        }
+        body { background: #0f0f1b; color: #00ffcc; font-family: sans-serif; text-align: center; padding: 50px; }
+        input { padding: 15px; width: 300px; border-radius: 10px; border: none; font-size: 16px; }
+        button { padding: 15px 30px; background: #00ffcc; color: #0f0f1b; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin-left: 10px; }
+        #result { margin-top: 30px; }
+        img { max-width: 100%; border-radius: 20px; box-shadow: 0 0 20px #00ffcc; }
+        .loading { color: yellow; font-style: italic; }
     </style>
 </head>
 <body>
-    <h1>🚀 My AI Art Universe</h1>
-    <p>Hand-crafted prompts. AI-powered masterpieces.</p>
 
-    <div class="gallery">
-        <div class="art-card">
-            <img src="your-image-1.jpg" alt="Space Cat">
-            <a href="https://www.redbubble.com" class="buy-btn">Buy as Sticker</a>
-        </div>
-    </div>
+    <h1>✨ 6th Grade AI Image Maker</h1>
+    <p>Type anything below and wait for the magic!</p>
+
+    <input type="text" id="promptInput" placeholder="A space cat on Mars...">
+    <button onclick="generateImage()">GENERATE</button>
+
+    <div id="result"></div>
+
+    <script>
+        async function generateImage() {
+            const prompt = document.getElementById('promptInput').value;
+            const resultDiv = document.getElementById('result');
+
+            if (!prompt) {
+                alert("Please type something first!");
+                return;
+            }
+
+            resultDiv.innerHTML = "<p class='loading'>The AI is drawing your masterpiece... please wait...</p>";
+
+            try {
+                // This line tells the Puter AI to draw the image
+                const image = await puter.ai.txt2img(prompt);
+                resultDiv.innerHTML = ""; // Clear the loading text
+                resultDiv.appendChild(image); // Show the image!
+            } catch (error) {
+                resultDiv.innerHTML = "<p style='color:red'>Oh no! Something went wrong. Try a different prompt.</p>";
+                console.error(error);
+            }
+        }
+    </script>
 </body>
 </html>
