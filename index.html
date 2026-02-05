@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AI Art Universe</title>
+    <style>
+        body {
+            background-color: #0d1117; /* Dark space blue */
+            color: #58a6ff; /* Neon blue text */
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+        }
+        h1 { text-shadow: 0 0 10px #58a6ff; }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+        .gallery img {
+            width: 100%;
+            border-radius: 15px;
+            border: 2px solid #30363d;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #bc8cff; /* Purple glow on hover */
+            border-color: #bc8cff;
+        }
+        .buy-btn {
+            background: #238636;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 My AI Art Universe</h1>
+    <p>Hand-crafted prompts. AI-powered masterpieces.</p>
+
+    <div class="gallery">
+        <div class="art-card">
+            <img src="your-image-1.jpg" alt="Space Cat">
+            <a href="https://www.redbubble.com" class="buy-btn">Buy as Sticker</a>
+        </div>
+    </div>
+</body>
+</html>
