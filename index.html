@@ -2,49 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My AI Generator</title>
+    <title>My AI Assistant</title>
     <script src="https://js.puter.com/v2/"></script>
     <style>
-        body { background: #0f0f1b; color: #00ffcc; font-family: sans-serif; text-align: center; padding: 50px; }
-        input { padding: 15px; width: 300px; border-radius: 10px; border: none; font-size: 16px; }
-        button { padding: 15px 30px; background: #00ffcc; color: #0f0f1b; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin-left: 10px; }
-        #result { margin-top: 30px; }
-        img { max-width: 100%; border-radius: 20px; box-shadow: 0 0 20px #00ffcc; }
-        .loading { color: yellow; font-style: italic; }
+        body { background: #1a1a2e; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; height: 100vh; margin: 0; }
+        #chat-box { width: 90%; max-width: 500px; height: 60vh; background: #16213e; border-radius: 20px; padding: 20px; overflow-y: auto; margin-top: 20px; border: 1px solid #0f3460; }
+        .message { margin: 10px 0; padding: 10px; border-radius: 10px; line-height: 1.4; }
+        .user { background: #e94560; align-self: flex-end; text-align: right; }
+        .ai { background: #0f3460; text-align: left; border-left: 4px solid #00ffcc; }
+        .input-area { margin-top: 20px; width: 90%; max-width: 500px; display: flex; }
+        input { flex: 1; padding: 15px; border-radius: 10px; border: none; outline: none; font-size: 16px; }
+        button { padding: 15px; margin-left: 10px; background: #00ffcc; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; color: #1a1a2e; }
     </style>
 </head>
 <body>
 
-    <h1>✨ 6th Grade AI Image Maker</h1>
-    <p>Type anything below and wait for the magic!</p>
+    <h1>🤖 My Smart Assistant</h1>
 
-    <input type="text" id="promptInput" placeholder="A space cat on Mars...">
-    <button onclick="generateImage()">GENERATE</button>
+    <div id="chat-box">
+        <div class="message ai">Hi! I'm your AI assistant. Ask me anything!</div>
+    </div>
 
-    <div id="result"></div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Ask me to write a story or solve math...">
+        <button id="sendBtn">SEND</button>
+    </div>
 
     <script>
-        async function generateImage() {
-            const prompt = document.getElementById('promptInput').value;
-            const resultDiv = document.getElementById('result');
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
 
-            if (!prompt) {
-                alert("Please type something first!");
-                return;
-            }
+        async function askAI() {
+            const message = userInput.value;
+            if (!message) return;
 
-            resultDiv.innerHTML = "<p class='loading'>The AI is drawing your masterpiece... please wait...</p>";
+            // 1. Show User Message
+            chatBox.innerHTML += `<div class="message user">${message}</div>`;
+            userInput.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // 2. Add "Thinking..." bubble
+            const thinking = document.createElement('div');
+            thinking.className = 'message ai';
+            thinking.innerText = "Thinking...";
+            chatBox.appendChild(thinking);
 
             try {
-                // This line tells the Puter AI to draw the image
-                const image = await puter.ai.txt2img(prompt);
-                resultDiv.innerHTML = ""; // Clear the loading text
-                resultDiv.appendChild(image); // Show the image!
+                // 3. Talk to the AI Brain
+                const response = await puter.ai.chat(message);
+                thinking.innerText = response; // Replace thinking with the real answer
             } catch (error) {
-                resultDiv.innerHTML = "<p style='color:red'>Oh no! Something went wrong. Try a different prompt.</p>";
-                console.error(error);
+                thinking.innerText = "Error: Make sure to sign in to Puter! " + error;
             }
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
+
+        sendBtn.onclick = askAI;
+        // Allows pressing "Enter" to send
+        userInput.addEventListener("keypress", (e) => { if (e.key === "Enter") askAI(); });
     </script>
 </body>
 </html>
